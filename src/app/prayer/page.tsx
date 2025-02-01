@@ -1,9 +1,12 @@
-import CornerButton from "@/components/CornerButton";
+import TopCornerButton from "@/components/TopCornerButton";
 
 export default function Prayer() {
+
   return (
     <div>
-      <CornerButton />
+      <TopCornerButton
+        startPosition={'top-right'}
+      />
     </div>
   );
 }
