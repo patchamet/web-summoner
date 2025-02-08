@@ -17,9 +17,7 @@ const elementNodes: ElementNode[] = [
         _id: '0',
         _parentId: null,
         htmlTag: 'div',
-        props: {
-            className: 'container',
-        },
+        props: {},
         style: {
             width: '100%',
             minHeight: '300px',
@@ -62,7 +60,6 @@ const elementNodes: ElementNode[] = [
         props: {},
         style: {
             width: '100%',
-
             height: '100%',
             backgroundColor: 'rgba(255, 255, 0, 0.2)',
         },
@@ -74,7 +71,6 @@ const elementNodes: ElementNode[] = [
         htmlTag: 'div',
         props: {},
         style: {
-
             width: '100%',
             height: '100%',
             backgroundColor: 'rgba(0, 255, 0, 0.2)',
@@ -88,7 +84,6 @@ const elementNodes: ElementNode[] = [
         htmlTag: 'div',
         props: {},
         style: {
-
             width: '100%',
             height: '100%',
             backgroundColor: 'rgba(255, 255, 0, 0.2)',
@@ -102,7 +97,6 @@ const elementNodes: ElementNode[] = [
         htmlTag: 'p',
         props: {},
         style: {
-
             width: '100%',
             height: '100%',
             backgroundColor: 'rgba(255, 255, 0, 0.2)',
@@ -116,7 +110,6 @@ const elementNodes: ElementNode[] = [
         props: {},
         style: {
             width: '100%',
-
             height: '100%',
             backgroundColor: 'rgba(0, 0, 255, 0.2)',
             padding: '8px',
@@ -130,7 +123,6 @@ const elementNodes: ElementNode[] = [
         props: {},
         style: {
             width: '100%',
-
             height: '100%',
             backgroundColor: 'rgba(255, 255, 0, 0.2)',
         },
@@ -178,13 +170,13 @@ function toFlatItems(root: ElementNode | null): ElementNode[] {
     return flatList;
 }
 
-const NodeRenderer = ({
+const ElementRenderer = ({
     node,
 }: {
     node: ElementNode;
 }): React.ReactElement => {
     const renderChildren = Array.isArray(node.children) && node.children.length > 0
-        ? node.children?.map(child => NodeRenderer({ node: child })) 
+        ? node.children.map(child => ElementRenderer({ node: child }))
         : node.innerHTML || undefined
 
     const RenderHtmlElement = React.createElement(
@@ -192,6 +184,7 @@ const NodeRenderer = ({
         {
             key: node._id,
             style: node.style,
+            ...node.props,
         },
         renderChildren,
     );
@@ -213,9 +206,10 @@ const CastingSpells = () => {
     }, [flatItems]);
 
     return treeObject
-        ? <NodeRenderer node={treeObject} />
+        ? <ElementRenderer node={treeObject} />
         : <div>No render data</div>;
 }
+
 
 
 export default CastingSpells;
