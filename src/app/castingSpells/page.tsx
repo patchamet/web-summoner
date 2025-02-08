@@ -20,11 +20,15 @@ const elementNodes: ElementNode[] = [
         props: {},
         style: {
             width: '100%',
-            minHeight: '300px',
+            height: '300px',
             backgroundColor: 'rgba(255, 0, 0, 0.2)',
             padding: '8px',
+            display: 'flex',
+            flexDirection: 'rows',
+            gap: '8px',
+            alignItems: 'center',
+            justifyContent: 'space-between',
         },
-
         innerHTML: null,
     },
     {
@@ -33,11 +37,10 @@ const elementNodes: ElementNode[] = [
         htmlTag: 'div',
         props: {},
         style: {
-            width: '100%',
-
-            height: '100%',
             backgroundColor: 'rgba(0, 0, 255, 0.2)',
             padding: '8px',
+            width: '50%',
+            height: '100%',
         },
         innerHTML: null,
     },
@@ -47,8 +50,6 @@ const elementNodes: ElementNode[] = [
         htmlTag: 'h1',
         props: {},
         style: {
-            width: '100%',
-            height: '100%',
             backgroundColor: 'rgba(255, 255, 0, 0.2)',
         },
         innerHTML: 'h1: 1.1.1',
@@ -59,8 +60,6 @@ const elementNodes: ElementNode[] = [
         htmlTag: 'h2',
         props: {},
         style: {
-            width: '100%',
-            height: '100%',
             backgroundColor: 'rgba(255, 255, 0, 0.2)',
         },
         innerHTML: 'h2: 1.1.2',
@@ -71,12 +70,13 @@ const elementNodes: ElementNode[] = [
         htmlTag: 'div',
         props: {},
         style: {
-            width: '100%',
-            height: '100%',
             backgroundColor: 'rgba(0, 255, 0, 0.2)',
             padding: '8px',
+            width: '50%',
+            height: '100%',
         },
         innerHTML: null,
+
     },
     {
         _id: '1.2.1',
@@ -84,8 +84,6 @@ const elementNodes: ElementNode[] = [
         htmlTag: 'div',
         props: {},
         style: {
-            width: '100%',
-            height: '100%',
             backgroundColor: 'rgba(255, 255, 0, 0.2)',
             padding: '8px',
         },
@@ -97,8 +95,6 @@ const elementNodes: ElementNode[] = [
         htmlTag: 'p',
         props: {},
         style: {
-            width: '100%',
-            height: '100%',
             backgroundColor: 'rgba(255, 255, 0, 0.2)',
         },
         innerHTML: 'p: 1.2.1.1',
@@ -109,8 +105,6 @@ const elementNodes: ElementNode[] = [
         htmlTag: 'div',
         props: {},
         style: {
-            width: '100%',
-            height: '100%',
             backgroundColor: 'rgba(0, 0, 255, 0.2)',
             padding: '8px',
         },
@@ -122,8 +116,6 @@ const elementNodes: ElementNode[] = [
         htmlTag: 'p',
         props: {},
         style: {
-            width: '100%',
-            height: '100%',
             backgroundColor: 'rgba(255, 255, 0, 0.2)',
         },
         innerHTML: 'p: 1.2.2.1',
