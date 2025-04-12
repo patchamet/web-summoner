@@ -10,6 +10,7 @@ type ElementNode = {
     style: Record<string, string>;
     innerHTML?: string | null;
     children?: ElementNode[];
+    value?: string | null | any;
 };
 
 const elementNodes: ElementNode[] = [
@@ -111,14 +112,44 @@ const elementNodes: ElementNode[] = [
         innerHTML: null,
     },
     {
-        _id: '1.2.2.1',
+        _id: 'horizontal-container',
         _parentId: '1.2.2',
-        htmlTag: 'p',
+        htmlTag: 'div',
         props: {},
         style: {
-            backgroundColor: 'rgba(255, 255, 0, 0.2)',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '8px',
+            alignItems: 'center',
+            justifyContent: 'center',
         },
-        innerHTML: 'p: 1.2.2.1',
+        innerHTML: null,
+    },
+    {
+        _id: 'input-1',
+        _parentId: 'horizontal-container',
+        htmlTag: 'input',
+        props: {},
+        style: {
+            color: 'black',
+            backgroundColor: 'white',
+            textAlign: 'center',
+        },
+        value: 'input-1 value',
+    },
+    {
+        _id: 'input-2',
+        _parentId: 'horizontal-container',
+        htmlTag: 'input',
+        props: {},
+        style: {
+            color: 'black',
+            backgroundColor: 'white',
+            textAlign: 'center',
+        },
+        value: 'input-2 value',
     },
 ]
 
