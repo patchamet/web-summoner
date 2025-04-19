@@ -10,7 +10,7 @@ const ConjuringContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 10px;
     padding: 20px;
     width: 100%;
 `;
@@ -20,7 +20,10 @@ const ConjuringForm = styled.form`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 10px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    padding: 20px;
 `;
 
 const ConjuringSubmit = styled.button`
@@ -63,6 +66,13 @@ const initFormData: TFieldItem[] = [
     },
 ];
 
+const getDuplicateDataKeyItems = (data: TFieldItem[]): TFieldItem[] => {
+    const duplicateDataKeyItems = data.filter((item, index, self) =>
+        self.findIndex(t => t.dataKey === item.dataKey) !== index
+    );
+    return duplicateDataKeyItems;
+}
+
 const Conjuring = () => {
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -70,19 +80,35 @@ const Conjuring = () => {
 
     useEffect(() => {
         applyDebugBorders(containerRef.current);
-
         console.log("===initFormData===", initFormData);
         setFormData(initFormData);
     }, []);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        const duplicateDataKeyItems = getDuplicateDataKeyItems(formData);
+        if (duplicateDataKeyItems.length > 0) {
+            const errorItems = duplicateDataKeyItems
+                .map(item => [
+                    `Key: ${item.dataKey}`,
+                    `Title: ${item.title}`,
+                ].join('\n')).join(', ');
+            alert(`Duplicate data key items found: ${errorItems}`);
+            return;
+        }
+
         alert('Submit');
     }
 
-    const handleChange = (data: TFieldItem) => {
-        const newFormData = formData.map(item => item.dataKey === data.dataKey ? data : item);
-        console.log("===newFormData===", newFormData); 
+    const handleChangeField = ({
+        index,
+        data,
+    }: {
+        index: number;
+        data: TFieldItem;
+    }) => {
+        const newFormData = formData.map((item, i) => i === index ? data : item);
         setFormData(newFormData);
     }
 
@@ -96,7 +122,7 @@ const Conjuring = () => {
                     <InputField
                         key={index}
                         data={data}
-                        onChange={handleChange}
+                        onChange={e => handleChangeField({ index, data: e })}
                     />
                 ))}
             </ConjuringForm>
