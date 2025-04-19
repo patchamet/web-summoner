@@ -1,8 +1,10 @@
 'use client'
+import { useEffect, useRef, useState, } from 'react';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { Section } from '@/components/shared';
+import { applyDebugBorders } from '@/utils/debugBorder'; // <-- import here
 
-const Container = styled.div`
+const ConjuringContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,30 +13,19 @@ const Container = styled.div`
     width: 100%;
 `;
 
-const Section = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    border: 1px solid red;
-`;
-
-type TSection = {
-    key: string;
-    title: string;
-    content: string;
-}
-
 const Conjuring = () => {
-    const [sections, setSections] = useState<TSection[]>([]);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        applyDebugBorders(containerRef.current);
+    }, []);
 
     return (
-        <Container>
-           <Section>Section 1</Section>
-           <Section>Section 2</Section>
-           <Section>Section 3</Section>
-        </Container>
+        <ConjuringContainer ref={containerRef}>
+            <Section title="Section 1" dataKey="section1" />
+            <Section title="Section 2" dataKey="section2" />
+            <Section title="Section 3" dataKey="section3" />
+        </ConjuringContainer>
     )
 }
 
