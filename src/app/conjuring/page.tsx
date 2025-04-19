@@ -70,6 +70,31 @@ const initFormData: TFieldItem[] = [
             value: true,
         }
     },
+    {
+        title: 'Section 4',
+        dataKey: 'section4',
+        children: [
+            {
+                title: 'Subsection 1',
+                dataKey: 'subsection1',
+                inputProps: {
+                    type: 'text',
+                    value: 'Text value 2',
+                }
+            },
+            {
+                title: 'Subsection 2',
+                dataKey: 'subsection2',
+                children: [
+                    {
+                        title: 'Subsubsection 1',
+                        dataKey: 'subsubsection1',
+
+                    }
+                ]
+            },
+        ]
+    }
 ];
 
 const getDuplicateDataKeyItems = (data: TFieldItem[]): TFieldItem[] => {
