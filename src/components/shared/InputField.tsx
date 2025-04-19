@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { TFieldItem } from '@/types';
 
 const FieldContainer = styled.div`
     display: flex;
@@ -59,28 +60,24 @@ const FieldValue = styled.div`
     }
 `;
 
-type FieldItem = {
-    title: string;
-    dataKey: string;
-    value?: string | number | boolean;
-}
-
 const InputField = ({
     data,
     onChange,
 }: {
-    data: FieldItem;
-    onChange?: (data: FieldItem) => void;
+    data: TFieldItem;
+    onChange?: (data: TFieldItem) => void;
 }) => {
 
     const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        onChange?.({ ...data, [name]: value });
+        const newData = { ...data, [name]: value };
+        onChange?.(newData);
     }
 
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, checked } = e.target;
-        onChange?.({ ...data, [name]: checked });
+        const newData = { ...data, [name]: checked };
+        onChange?.(newData);
     }
 
     return (
@@ -106,7 +103,7 @@ const InputField = ({
                 </FieldKey>
                 <FieldValue>
                     <label>Value: </label>
-                    {data.value && typeof data.value === 'string' && (
+                    {typeof data.value === 'string' && (
                         <input
                             type="text"
                             name="value"
@@ -115,7 +112,7 @@ const InputField = ({
                         />
                     )}
 
-                    {data.value && typeof data.value === 'number' && (
+                    {typeof data.value === 'number' && (
                         <input
                             type="number"
                             name="value"
@@ -124,7 +121,7 @@ const InputField = ({
                         />
                     )}
 
-                    {data.value && typeof data.value === 'boolean' && (
+                    {typeof data.value === 'boolean' && (
                         <input
                             type="checkbox"
                             name="value"
