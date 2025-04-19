@@ -49,17 +49,26 @@ const initFormData: TFieldItem[] = [
     {
         title: 'Section 1',
         dataKey: 'section1',
-        value: 'Text value 1',
+        inputProps: {
+            type: 'text',
+            value: 'Text value 1',
+        }
     },
     {
         title: 'Section 2',
         dataKey: 'section2',
-        value: 123,
+        inputProps: {
+            type: 'number',
+            value: 123,
+        }
     },
     {
         title: 'Section 3',
         dataKey: 'section3',
-        value: true,
+        inputProps: {
+            type: 'boolean',
+            value: true,
+        }
     },
 ];
 

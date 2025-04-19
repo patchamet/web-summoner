@@ -92,32 +92,32 @@ const InputField = ({
                     onChange={handleValueChange}
                 />
             </FieldKey>
-            {data.value !== undefined && (
+            {data.inputProps !== undefined && (
                 <FieldValue>
                     <label>Value: </label>
-                    {typeof data.value === 'string' && (
+                    {data.inputProps.type === 'text' && typeof data.inputProps.value === 'string' && (
                         <input
                             type="text"
                             name="value"
-                            value={data.value}
+                            value={data.inputProps.value}
                             onChange={handleValueChange}
                         />
                     )}
 
-                    {typeof data.value === 'number' && (
+                    {data.inputProps.type === 'number' && typeof data.inputProps.value === 'number' && (
                         <input
                             type="number"
                             name="value"
-                            value={data.value}
+                            value={data.inputProps.value}
                             onChange={handleValueChange}
                         />
                     )}
 
-                    {typeof data.value === 'boolean' && (
+                    {data.inputProps.type === 'boolean' && typeof data.inputProps.value === 'boolean' && (
                         <input
                             type="checkbox"
                             name="value"
-                            checked={data.value}
+                            checked={data.inputProps.value}
                             onChange={handleCheckboxChange}
                         />
                     )}
