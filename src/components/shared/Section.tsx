@@ -16,6 +16,7 @@ const SectionHeader = styled.div`
     align-items: center;
     justify-content: left;
     width: 100%;
+    padding: 10px;
 `;
 
 const SectionTitle = styled.div`
@@ -25,29 +26,50 @@ const SectionTitle = styled.div`
     justify-content: center;
 `;
 
-const SectionKey = styled.div`
+const SectionDataKey = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
 `;
 
-const Section = ({
-    title,
-    dataKey,
-}: {
+type SectionData = {
     title: string;
     dataKey: string;
+}
+
+const Section = ({
+    formData,
+    onChange,
+}: {
+    formData: SectionData;
+    onChange?: (data: SectionData) => void;
 }) => {
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        onChange?.({ ...formData, [name]: value });
+    }
+
     return (
         <SectionContainer>
             <SectionHeader>
-                <SectionTitle>{title}</SectionTitle>
-                <SectionKey>{dataKey}</SectionKey>
-            </SectionHeader>
-            <SectionHeader>
-                <SectionTitle>{title}</SectionTitle>
-                <SectionKey>{dataKey}</SectionKey>
+                <SectionTitle>
+                    Title:
+                    <input
+                        type="text"
+                        value={formData.title}
+                        onChange={handleChange}
+                    />
+                </SectionTitle>
+                <SectionDataKey>
+                    Data Key:
+                    <input
+                        type="text"
+                        value={formData.dataKey}
+                        onChange={handleChange}
+                    />
+                </SectionDataKey>
             </SectionHeader>
         </SectionContainer>
     )
@@ -55,3 +77,4 @@ const Section = ({
 
 
 export default Section;
+export type { SectionData };
