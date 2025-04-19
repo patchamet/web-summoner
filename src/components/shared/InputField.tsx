@@ -92,35 +92,37 @@ const InputField = ({
                     onChange={handleValueChange}
                 />
             </FieldKey>
-            <FieldValue>
-                <label>Value: </label>
-                {typeof data.value === 'string' && (
-                    <input
-                        type="text"
-                        name="value"
-                        value={data.value}
-                        onChange={handleValueChange}
-                    />
-                )}
+            {data.value !== undefined && (
+                <FieldValue>
+                    <label>Value: </label>
+                    {typeof data.value === 'string' && (
+                        <input
+                            type="text"
+                            name="value"
+                            value={data.value}
+                            onChange={handleValueChange}
+                        />
+                    )}
 
-                {typeof data.value === 'number' && (
-                    <input
-                        type="number"
-                        name="value"
-                        value={data.value}
-                        onChange={handleValueChange}
-                    />
-                )}
+                    {typeof data.value === 'number' && (
+                        <input
+                            type="number"
+                            name="value"
+                            value={data.value}
+                            onChange={handleValueChange}
+                        />
+                    )}
 
-                {typeof data.value === 'boolean' && (
-                    <input
-                        type="checkbox"
-                        name="value"
-                        checked={data.value}
-                        onChange={handleCheckboxChange}
-                    />
-                )}
-            </FieldValue>
+                    {typeof data.value === 'boolean' && (
+                        <input
+                            type="checkbox"
+                            name="value"
+                            checked={data.value}
+                            onChange={handleCheckboxChange}
+                        />
+                    )}
+                </FieldValue>
+            )}
         </FieldContainer>
     )
 }

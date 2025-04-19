@@ -49,7 +49,7 @@ const initFormData: TFieldItem[] = [
     {
         title: 'Section 1',
         dataKey: 'section1',
-        value: 'Hello, world!',
+        value: 'Text value 1',
     },
     {
         title: 'Section 2',
@@ -77,7 +77,6 @@ const Conjuring = () => {
 
     useEffect(() => {
         applyDebugBorders(containerRef.current);
-        console.log("===initFormData===", initFormData);
         setFormData(initFormData);
     }, []);
 
