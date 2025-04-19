@@ -17,6 +17,7 @@ const SectionHeader = styled.div`
     justify-content: left;
     width: 100%;
     padding: 10px;
+    gap: 10px;
 `;
 
 const SectionTitle = styled.div`
@@ -24,6 +25,12 @@ const SectionTitle = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    gap: 10px;
+
+    input {
+        color: #000;
+        text-align: center;
+    }
 `;
 
 const SectionDataKey = styled.div`
@@ -31,11 +38,31 @@ const SectionDataKey = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    gap: 10px;
+
+    input {
+        color: #000;
+        text-align: center;
+    }
+`;
+
+const SectionValue = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    input {
+        color: #000;
+        text-align: center;
+    }
 `;
 
 type SectionData = {
     title: string;
     dataKey: string;
+    value: string;
 }
 
 const Section = ({
@@ -55,21 +82,32 @@ const Section = ({
         <SectionContainer>
             <SectionHeader>
                 <SectionTitle>
-                    Title:
+                    <label>Title: </label>
                     <input
                         type="text"
+                        name="title"
                         value={formData.title}
                         onChange={handleChange}
                     />
                 </SectionTitle>
                 <SectionDataKey>
-                    Data Key:
+                    <label>Key: </label>
                     <input
                         type="text"
+                        name="dataKey"
                         value={formData.dataKey}
                         onChange={handleChange}
                     />
                 </SectionDataKey>
+                <SectionValue>
+                    <label>Value: </label>
+                    <input
+                        type="text"
+                        name="value"
+                        value={formData.value}
+                        onChange={handleChange}
+                    />
+                </SectionValue>
             </SectionHeader>
         </SectionContainer>
     )
