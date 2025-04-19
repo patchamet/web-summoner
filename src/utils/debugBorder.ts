@@ -2,8 +2,9 @@ const applyDebugBorders = (element: HTMLElement | null) => {
     if (!element) return;
 
     const urlParams = new URLSearchParams(window.location.search);
-    const isDebugBorder = urlParams.get('_isDebugBorder') === '1';
-    if (!isDebugBorder) return;
+    const isBorder = urlParams.get('_isBorder') === '1';
+    const isStretchyBorder = urlParams.get('_isStretchyBorder') === '1';
+    if (!isBorder) return;
 
     const colors = [
         '#ff0000', '#ffa500', '#008000', '#0000ff', '#800080',
@@ -14,6 +15,10 @@ const applyDebugBorders = (element: HTMLElement | null) => {
     const applyBordersByDepth = (el: HTMLElement, depth: number) => {
         const color = colors[depth % colors.length];
         el.style.boxShadow = `0 0 1px ${color}, 0 0 2px ${color}, 0 0 3px ${color}`;
+        if (isStretchyBorder) {
+            el.style.padding = `10px`;
+            el.style.margin = `10px`;
+        }
 
         Array.from(el.children).forEach((child) => {
             if (child instanceof HTMLElement) {
