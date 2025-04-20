@@ -119,32 +119,41 @@ const InputField = ({
 
                 {data.inputProps !== undefined && (
                     <FieldValue>
-                        <label>Value: </label>
+
                         {data.inputProps.type === 'text' && typeof data.inputProps.value === 'string' && (
-                            <input
-                                type="text"
-                                name="inputProps.value"
-                                value={data.inputProps.value}
-                                onChange={handleChangeString}
-                            />
+                            <>
+                                <label>Text: </label>
+                                <input
+                                    type="text"
+                                    name="inputProps.value"
+                                    value={data.inputProps.value}
+                                    onChange={handleChangeString}
+                                />
+                            </>
                         )}
 
                         {data.inputProps.type === 'number' && typeof data.inputProps.value === 'number' && (
-                            <input
-                                type="number"
-                                name="inputProps.value"
-                                value={data.inputProps.value}
-                                onChange={handleChangeNumber}
-                            />
+                            <>
+                                <label>Number: </label>
+                                <input
+                                    type="number"
+                                    name="inputProps.value"
+                                    value={data.inputProps.value}
+                                    onChange={handleChangeNumber}
+                                />
+                            </>
                         )}
 
                         {data.inputProps.type === 'boolean' && typeof data.inputProps.value === 'boolean' && (
-                            <input
-                                type="checkbox"
-                                name="inputProps.value"
-                                checked={data.inputProps.value}
-                                onChange={handleChangeBoolean}
-                            />
+                            <>
+                                <label>Boolean: </label>
+                                <input
+                                    type="checkbox"
+                                    name="inputProps.value"
+                                    checked={data.inputProps.value}
+                                    onChange={handleChangeBoolean}
+                                />
+                            </>
                         )}
                     </FieldValue>
                 )}
@@ -159,14 +168,17 @@ const InputField = ({
 
             {Array.isArray(data.children) && data.children.length > 0 && (
                 <FieldChildrenContainer>
-                    {data.children.map((child, index) => (
-                        <InputField
-                            key={`${prefixKey}.children[${index}]`}
-                            prefixKey={`${prefixKey}.children[${index}]`}
-                            data={child}
-                            onChange={onChange}
-                        />
-                    ))}
+                    {data.children.map((child, index) => {
+                        const childPrefixKey = `${prefixKey}.children[${index}]`;
+                        return (
+                            <InputField
+                                key={childPrefixKey}
+                                prefixKey={childPrefixKey}
+                                data={child}
+                                onChange={onChange}
+                            />
+                        )
+                    })}
                 </FieldChildrenContainer>
             )}
         </FieldContainer>
