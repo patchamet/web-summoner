@@ -151,6 +151,7 @@ const InputField = ({
 
                 {Array.isArray(data.children) && data.children.length > 0 && (
                     <FieldValue>
+                        <label>Children: </label>
                         <span>▼</span>
                     </FieldValue>
                 )}
