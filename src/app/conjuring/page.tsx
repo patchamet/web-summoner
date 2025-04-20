@@ -89,7 +89,18 @@ const initFormData: TFieldItem[] = [
                     {
                         title: 'Subsubsection 1',
                         dataKey: 'subsubsection1',
-
+                        inputProps: {
+                            type: 'number',
+                            value: 456,
+                        }
+                    },
+                    {
+                        title: 'Subsubsection 2',
+                        dataKey: 'subsubsection2',
+                        inputProps: {
+                            type: 'boolean',
+                            value: true,
+                        }
                     }
                 ]
             },
