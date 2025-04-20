@@ -57,7 +57,7 @@ const initFormData: TFieldItem[] = [
     },
     {
         title: 'Contact Details',
-        dataKey: 'contactDetails', 
+        dataKey: 'contactDetails',
         inputProps: {
             type: 'number',
             value: 123,
@@ -176,8 +176,8 @@ const Conjuring = () => {
             >
                 {formData.map((data, index) => (
                     <InputField
+                        key={`[${index}]`}
                         prefixKey={`[${index}]`}
-                        key={index}
                         data={data}
                         onChange={handleChangeField}
                     />
