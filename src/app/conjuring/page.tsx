@@ -48,76 +48,76 @@ const ConjuringSubmit = styled.button`
 
 const initFormData: TFieldItem[] = [
     {
-        title: 'Section 1',
-        dataKey: 'section1',
+        title: 'Personal Information',
+        dataKey: 'personalInfo',
         inputProps: {
             type: 'text',
             value: 'Text value 1',
         }
     },
     {
-        title: 'Section 2',
-        dataKey: 'section2',
+        title: 'Contact Details',
+        dataKey: 'contactDetails', 
         inputProps: {
             type: 'number',
             value: 123,
         }
     },
     {
-        title: 'Section 3',
-        dataKey: 'section3',
+        title: 'Address Information',
+        dataKey: 'addressInfo',
+        children: [
+            {
+                title: 'Street Address',
+                dataKey: 'streetAddress',
+                inputProps: {
+                    type: 'number',
+                    value: 456,
+                }
+            },
+            {
+                title: 'Is Current Address',
+                dataKey: 'isCurrentAddress',
+                inputProps: {
+                    type: 'boolean',
+                    value: true,
+                }
+            },
+            {
+                title: 'Additional Details',
+                dataKey: 'additionalDetails',
+                children: [
+                    {
+                        title: 'Special Instructions',
+                        dataKey: 'specialInstructions',
+                        inputProps: {
+                            type: 'text',
+                            value: 'Text value 3',
+                        }
+                    },
+                ]
+            }
+        ]
+    },
+    {
+        title: 'Employment Status',
+        dataKey: 'employmentStatus',
         inputProps: {
             type: 'boolean',
             value: true,
         }
     },
     {
-        title: 'Section 4',
-        dataKey: 'section4',
+        title: 'Education Details',
+        dataKey: 'educationDetails',
         children: [
             {
-                title: 'Subsection 1',
-                dataKey: 'subsection1',
+                title: 'Institution Name',
+                dataKey: 'institutionName',
                 inputProps: {
                     type: 'text',
                     value: 'Text value 2',
                 }
-            },
-            {
-                title: 'Subsection 2',
-                dataKey: 'subsection2',
-                children: [
-                    {
-                        title: 'Subsubsection 1',
-                        dataKey: 'subsubsection1',
-                        inputProps: {
-                            type: 'number',
-                            value: 456,
-                        }
-                    },
-                    {
-                        title: 'Subsubsection 2',
-                        dataKey: 'subsubsection2',
-                        inputProps: {
-                            type: 'boolean',
-                            value: true,
-                        }
-                    },
-                    {
-                        title: 'Subsubsection 3',
-                        dataKey: 'subsubsection3',
-                        children: [
-                            {
-                                title: 'Subsubsection 3.1',
-                                dataKey: 'subsubsection3.1',
-                                inputProps: {
-                                    type: 'text',
-                                    value: 'Text value 3',
-                                }
-                            },
-                        ]
-                    }
-                ]
             },
         ]
     }
