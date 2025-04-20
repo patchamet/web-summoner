@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import _ from 'lodash';
 import InputField from '@/components/shared/InputField';
 import { applyDebugBorders } from '@/utils/debugBorder';
 import { TFieldItem } from '@/types';
@@ -101,6 +102,20 @@ const initFormData: TFieldItem[] = [
                             type: 'boolean',
                             value: true,
                         }
+                    },
+                    {
+                        title: 'Subsubsection 3',
+                        dataKey: 'subsubsection3',
+                        children: [
+                            {
+                                title: 'Subsubsection 3.1',
+                                dataKey: 'subsubsection3.1',
+                                inputProps: {
+                                    type: 'text',
+                                    value: 'Text value 3',
+                                }
+                            },
+                        ]
                     }
                 ]
             },
@@ -143,13 +158,13 @@ const Conjuring = () => {
     }
 
     const handleChangeField = ({
-        index,
-        data,
+        key,
+        value,
     }: {
-        index: number;
-        data: TFieldItem;
+        key: string;
+        value: any;
     }) => {
-        const newFormData = formData.map((item, i) => i === index ? data : item);
+        const newFormData = _.set(_.cloneDeep(formData), key, value);
         setFormData(newFormData);
     }
 
@@ -161,9 +176,10 @@ const Conjuring = () => {
             >
                 {formData.map((data, index) => (
                     <InputField
+                        prefixKey={`[${index}]`}
                         key={index}
                         data={data}
-                        onChange={e => handleChangeField({ index, data: e })}
+                        onChange={handleChangeField}
                     />
                 ))}
             </ConjuringForm>

@@ -66,28 +66,33 @@ const FieldChildrenContainer = styled.div`
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
     gap: 10px;
 `;
 
 const InputField = ({
+    prefixKey,
     data,
     onChange,
 }: {
+    prefixKey?: string;
     data: TFieldItem;
-    onChange?: (data: TFieldItem) => void;
+    onChange?: ({ key, value }: { key: string; value: any }) => void;
 }) => {
 
-    const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeString = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        const newData: TFieldItem = { ...data, [name]: value };
-        onChange?.(newData);
+        onChange?.({ key: `${prefixKey}.${name}`, value });
     }
 
-    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChangeNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        onChange?.({ key: `${prefixKey}.${name}`, value: Number(value) });
+    }
+
+    const handleChangeBoolean = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, checked } = e.target;
-        const newData: TFieldItem = { ...data, [name]: checked };
-        onChange?.(newData);
+        onChange?.({ key: `${prefixKey}.${name}`, value: checked });
     }
 
     return (
@@ -99,7 +104,7 @@ const InputField = ({
                         type="text"
                         name="title"
                         value={data.title}
-                        onChange={handleValueChange}
+                        onChange={handleChangeString}
                     />
                 </FieldTitle>
                 <FieldKey>
@@ -108,7 +113,7 @@ const InputField = ({
                         type="text"
                         name="dataKey"
                         value={data.dataKey}
-                        onChange={handleValueChange}
+                        onChange={handleChangeString}
                     />
                 </FieldKey>
 
@@ -118,27 +123,27 @@ const InputField = ({
                         {data.inputProps.type === 'text' && typeof data.inputProps.value === 'string' && (
                             <input
                                 type="text"
-                                name="value"
+                                name="inputProps.value"
                                 value={data.inputProps.value}
-                                onChange={handleValueChange}
+                                onChange={handleChangeString}
                             />
                         )}
 
                         {data.inputProps.type === 'number' && typeof data.inputProps.value === 'number' && (
                             <input
                                 type="number"
-                                name="value"
+                                name="inputProps.value"
                                 value={data.inputProps.value}
-                                onChange={handleValueChange}
+                                onChange={handleChangeNumber}
                             />
                         )}
 
                         {data.inputProps.type === 'boolean' && typeof data.inputProps.value === 'boolean' && (
                             <input
                                 type="checkbox"
-                                name="value"
+                                name="inputProps.value"
                                 checked={data.inputProps.value}
-                                onChange={handleCheckboxChange}
+                                onChange={handleChangeBoolean}
                             />
                         )}
                     </FieldValue>
@@ -153,8 +158,13 @@ const InputField = ({
 
             {Array.isArray(data.children) && data.children.length > 0 && (
                 <FieldChildrenContainer>
-                    {data.children.map((child) => (
-                        <InputField key={child.dataKey} data={child} />
+                    {data.children.map((child, index) => (
+                        <InputField
+                            key={`${prefixKey}.children[${index}]`}
+                            prefixKey={`${prefixKey}.children[${index}]`}
+                            data={child}
+                            onChange={onChange}
+                        />
                     ))}
                 </FieldChildrenContainer>
             )}
