@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import _ from 'lodash';
 import InputField from '@/components/shared/InputField';
+import BtnSquareAdd from '@/components/shared/BtnSquareAdd';
 import { applyDebugBorders } from '@/utils/debugBorder';
 import { TFieldItem } from '@/types';
 
@@ -168,6 +169,10 @@ const Conjuring = () => {
         setFormData(newFormData);
     }
 
+    const handleAddField = () => {
+        alert('handleAddField');
+    }
+
     return (
         <ConjuringContainer ref={containerRef}>
             <ConjuringForm
@@ -183,6 +188,7 @@ const Conjuring = () => {
                     />
                 ))}
             </ConjuringForm>
+            <BtnSquareAdd onClick={handleAddField} />
 
             <ConjuringSubmit
                 type="submit"
