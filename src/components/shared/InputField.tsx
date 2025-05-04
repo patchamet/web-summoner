@@ -70,13 +70,20 @@ const FieldChildrenContainer = styled.div`
     gap: 10px;
 `;
 
+const IconExpand = styled.span`
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+`;
+
 const InputField = ({
     prefixKey,
     data,
+    isExpandChildren = true,
     onChange,
 }: {
     prefixKey?: string;
     data: TFieldItem;
+    isExpandChildren?: boolean;
     onChange?: ({ key, value }: { key: string; value: any }) => void;
 }) => {
 
@@ -117,6 +124,7 @@ const InputField = ({
                     />
                 </FieldKey>
 
+                {/* input value */}
                 {data.inputProps !== undefined && (
                     <FieldValue>
 
@@ -158,16 +166,22 @@ const InputField = ({
                     </FieldValue>
                 )}
 
+                {/* if children is array show symbol */}
                 {Array.isArray(data.children) && data.children.length > 0 && (
                     <FieldValue>
                         <label>Children: </label>
-                        <span>▼</span>
+                        <IconExpand style={{ transform: isExpandChildren ? 'rotate(0deg)' : 'rotate(90deg)' }}>▼</IconExpand>
                     </FieldValue>
                 )}
             </FieldRow>
 
+            {/* children handle */}
             {Array.isArray(data.children) && data.children.length > 0 && (
-                <FieldChildrenContainer>
+                <FieldChildrenContainer
+                    style={{
+                        display: isExpandChildren ? 'flex' : 'none'
+                    }}
+                >
                     {data.children.map((child, index) => {
                         const childPrefixKey = `${prefixKey}.children[${index}]`;
                         return (

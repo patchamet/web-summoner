@@ -17,6 +17,30 @@ const ConjuringContainer = styled.div`
     width: 100%;
 `;
 
+const ConjuringHeader = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+`;
+
+const ConjuringBody = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+`;
+
+const ConjuringFooter = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+`;
+
 const ConjuringForm = styled.form`
     display: flex;
     flex-direction: column;
@@ -175,27 +199,35 @@ const Conjuring = () => {
 
     return (
         <ConjuringContainer ref={containerRef}>
-            <ConjuringForm
-                id="conjuring-form"
-                onSubmit={handleSubmit}
-            >
-                {formData.map((data, index) => (
-                    <InputField
-                        key={`[${index}]`}
-                        prefixKey={`[${index}]`}
-                        data={data}
-                        onChange={handleChangeField}
-                    />
-                ))}
-            </ConjuringForm>
-            <BtnSquareAdd onClick={handleAddField} />
+            <ConjuringHeader>
+                <h1>Conjuring</h1>
+            </ConjuringHeader>
 
-            <ConjuringSubmit
-                type="submit"
-                form="conjuring-form"
-            >
-                Submit
-            </ConjuringSubmit>
+            <ConjuringBody>
+                <ConjuringForm
+                    id="conjuring-form"
+                    onSubmit={handleSubmit}
+                >
+                    {formData.map((data, index) => (
+                        <InputField
+                            key={`[${index}]`}
+                            prefixKey={`[${index}]`}
+                            data={data}
+                            onChange={handleChangeField}
+                        />
+                    ))}
+                </ConjuringForm>
+                <BtnSquareAdd onClick={handleAddField} />
+            </ConjuringBody>
+
+            <ConjuringFooter>
+                <ConjuringSubmit
+                    type="submit"
+                    form="conjuring-form"
+                >
+                    Submit
+                </ConjuringSubmit>
+            </ConjuringFooter>
         </ConjuringContainer>
     )
 }
