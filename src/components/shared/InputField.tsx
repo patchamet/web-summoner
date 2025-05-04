@@ -169,7 +169,7 @@ const InputField = ({
                 {/* if children is array show symbol */}
                 {Array.isArray(data.children) && data.children.length > 0 && (
                     <FieldValue>
-                        <label>Children: </label>
+                        <label>Total Children: {data.children.length}</label>
                         <IconExpand style={{ transform: isExpandChildren ? 'rotate(0deg)' : 'rotate(90deg)' }}>▼</IconExpand>
                     </FieldValue>
                 )}

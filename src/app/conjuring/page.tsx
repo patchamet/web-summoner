@@ -71,6 +71,14 @@ const ConjuringSubmit = styled.button`
     }
 `;
 
+const ConjuringControlsBar = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+`;
+
 const initFormData: TFieldItem[] = [
     {
         title: 'Personal Information',
@@ -159,6 +167,7 @@ const Conjuring = () => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     const [formData, setFormData] = useState<TFieldItem[]>([]);
+    const [isExpandChildren, setIsExpandChildren] = useState<boolean>(false);
 
     useEffect(() => {
         applyDebugBorders(containerRef.current);
@@ -201,6 +210,26 @@ const Conjuring = () => {
         <ConjuringContainer ref={containerRef}>
             <ConjuringHeader>
                 <h1>Conjuring</h1>
+                <ConjuringControlsBar>
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: 10,
+                        }}
+                    >
+                        <input
+                            id="expand-all"
+                            type="checkbox"
+                            checked={isExpandChildren}
+                            onChange={() => setIsExpandChildren(!isExpandChildren)}
+                        />
+                        <label htmlFor="expand-all">Expand All</label>
+                    </div>
+
+
+                </ConjuringControlsBar>
             </ConjuringHeader>
 
             <ConjuringBody>
@@ -213,6 +242,7 @@ const Conjuring = () => {
                             key={`[${index}]`}
                             prefixKey={`[${index}]`}
                             data={data}
+                            isExpandChildren={isExpandChildren}
                             onChange={handleChangeField}
                         />
                     ))}
