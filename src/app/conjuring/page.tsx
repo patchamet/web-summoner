@@ -81,6 +81,7 @@ const ConjuringControlsBar = styled.div`
 
 const initFormData: TFieldItem[] = [
     {
+        _id: '550e8400-e29b-41d4-a716-446655440000',
         title: 'Personal Information',
         dataKey: 'personalInfo',
         inputProps: {
@@ -89,6 +90,7 @@ const initFormData: TFieldItem[] = [
         }
     },
     {
+        _id: '550e8400-e29b-41d4-a716-446655440001',
         title: 'Contact Details',
         dataKey: 'contactDetails',
         inputProps: {
@@ -97,10 +99,12 @@ const initFormData: TFieldItem[] = [
         }
     },
     {
+        _id: '550e8400-e29b-41d4-a716-446655440002',
         title: 'Address Information',
         dataKey: 'addressInfo',
         children: [
             {
+                _id: '550e8400-e29b-41d4-a716-446655440003',
                 title: 'Street Address',
                 dataKey: 'streetAddress',
                 inputProps: {
@@ -109,6 +113,7 @@ const initFormData: TFieldItem[] = [
                 }
             },
             {
+                _id: '550e8400-e29b-41d4-a716-446655440004',
                 title: 'Is Current Address',
                 dataKey: 'isCurrentAddress',
                 inputProps: {
@@ -117,10 +122,12 @@ const initFormData: TFieldItem[] = [
                 }
             },
             {
+                _id: '550e8400-e29b-41d4-a716-446655440005',
                 title: 'Additional Details',
                 dataKey: 'additionalDetails',
                 children: [
                     {
+                        _id: '550e8400-e29b-41d4-a716-446655440006',
                         title: 'Special Instructions',
                         dataKey: 'specialInstructions',
                         inputProps: {
@@ -133,6 +140,7 @@ const initFormData: TFieldItem[] = [
         ]
     },
     {
+        _id: '550e8400-e29b-41d4-a716-446655440007',
         title: 'Employment Status',
         dataKey: 'employmentStatus',
         inputProps: {
@@ -141,10 +149,12 @@ const initFormData: TFieldItem[] = [
         }
     },
     {
+        _id: '550e8400-e29b-41d4-a716-446655440008',
         title: 'Education Details',
         dataKey: 'educationDetails',
         children: [
             {
+                _id: '550e8400-e29b-41d4-a716-446655440009',
                 title: 'Institution Name',
                 dataKey: 'institutionName',
                 inputProps: {

@@ -3,6 +3,7 @@ type TFieldItemInputType = 'text' | 'number' | 'boolean'
 
 
 type TFieldItem = {
+    _id: string;
     title: string;
     dataKey: string;
     inputProps?: {
