@@ -216,6 +216,9 @@ const InputField = ({
                                     displayValue.editable
                                         ? <input
                                             type="checkbox"
+                                            style={{
+                                                transform: 'scale(1.5)'
+                                            }}
                                             name="inputProps.value"
                                             checked={data.inputProps.value}
                                             onChange={handleChangeBoolean}
@@ -236,7 +239,7 @@ const InputField = ({
                         )}
                         <IconExpand
                             style={{
-                                transform: expandChildrenIds.includes(data._id) ? 'rotate(0deg)' : 'rotate(90deg)'
+                                transform: expandChildrenIds.includes(data._id) ? 'rotate(0deg)' : 'rotate(-90deg)'
                             }}
                             onClick={() => onClickExpand?.({
                                 _id: data._id,
