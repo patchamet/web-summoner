@@ -177,7 +177,12 @@ const Conjuring = () => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     const [formData, setFormData] = useState<TFieldItem[]>([]);
-    const [isExpandChildren, setIsExpandChildren] = useState<boolean>(false);
+    const [expandChildrenIds, setExpandChildrenIds] = useState<string[]>([]);
+
+
+    useEffect(() => {
+        setExpandChildrenIds([])
+    }, [formData])
 
     useEffect(() => {
         applyDebugBorders(containerRef.current);
@@ -212,9 +217,21 @@ const Conjuring = () => {
         setFormData(newFormData);
     }
 
+    const handleClickExpand = ({ _id }: { _id: string }) => {
+        const isInclude = expandChildrenIds.includes(_id);
+        if (isInclude) {
+            setExpandChildrenIds(expandChildrenIds.filter(id => id !== _id));
+        } else {
+            setExpandChildrenIds([...expandChildrenIds, _id]);
+        }
+    }
+
     const handleAddField = () => {
         alert('handleAddField');
     }
+
+
+    const isExpandAll = true;
 
     return (
         <ConjuringContainer ref={containerRef}>
@@ -232,8 +249,8 @@ const Conjuring = () => {
                         <input
                             id="expand-all"
                             type="checkbox"
-                            checked={isExpandChildren}
-                            onChange={() => setIsExpandChildren(!isExpandChildren)}
+                            checked={isExpandAll}
+                            onChange={() => console.log('isExpandAll')}
                         />
                         <label htmlFor="expand-all">Expand All</label>
                     </div>
@@ -252,7 +269,8 @@ const Conjuring = () => {
                             key={`[${index}]`}
                             prefixKey={`[${index}]`}
                             data={data}
-                            isExpandChildren={isExpandChildren}
+                            expandChildrenIds={expandChildrenIds}
+                            onClickExpand={handleClickExpand}
                             onChange={handleChangeField}
                         />
                     ))}

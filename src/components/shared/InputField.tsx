@@ -78,13 +78,15 @@ const IconExpand = styled.span`
 const InputField = ({
     prefixKey,
     data,
-    isExpandChildren = true,
+    expandChildrenIds = [],
     onChange,
+    onClickExpand,
 }: {
     prefixKey?: string;
     data: TFieldItem;
-    isExpandChildren?: boolean;
+    expandChildrenIds?: string[];
     onChange?: ({ key, value }: { key: string; value: any }) => void;
+    onClickExpand?: ({ _id }: { _id: string }) => void;
 }) => {
 
     const handleChangeString = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -170,7 +172,16 @@ const InputField = ({
                 {Array.isArray(data.children) && data.children.length > 0 && (
                     <FieldValue>
                         <label>Total Children: {data.children.length}</label>
-                        <IconExpand style={{ transform: isExpandChildren ? 'rotate(0deg)' : 'rotate(90deg)' }}>▼</IconExpand>
+                        <IconExpand
+                            style={{
+                                transform: expandChildrenIds.includes(data._id) ? 'rotate(0deg)' : 'rotate(90deg)'
+                            }}
+                            onClick={() => onClickExpand?.({
+                                _id: data._id,
+                            })}
+                        >
+                            ▼
+                        </IconExpand>
                     </FieldValue>
                 )}
             </FieldRow>
@@ -179,7 +190,7 @@ const InputField = ({
             {Array.isArray(data.children) && data.children.length > 0 && (
                 <FieldChildrenContainer
                     style={{
-                        display: isExpandChildren ? 'flex' : 'none'
+                        display: expandChildrenIds.includes(data._id) ? 'flex' : 'none'
                     }}
                 >
                     {data.children.map((child, index) => {
@@ -189,6 +200,8 @@ const InputField = ({
                                 key={childPrefixKey}
                                 prefixKey={childPrefixKey}
                                 data={child}
+                                expandChildrenIds={expandChildrenIds}
+                                onClickExpand={onClickExpand}
                                 onChange={onChange}
                             />
                         )
