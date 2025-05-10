@@ -1,6 +1,13 @@
 import styled from 'styled-components';
 import { TFieldItem } from '@/types';
 
+type TDisplayInput = {
+    visible?: boolean;
+    showLabel?: boolean;
+    showValue?: boolean;
+    readonly?: boolean;
+}
+
 const FieldContainer = styled.div`
     display: flex;
     flex-direction: column;
@@ -75,16 +82,41 @@ const IconExpand = styled.span`
     transition: transform 0.3s ease-in-out;
 `;
 
+const ReadOnlyInput = styled.b`
+    min-width: 200px;
+`;
+
 const InputField = ({
     prefixKey,
     data,
     expandChildrenIds = [],
+    displayTitle = {
+        visible: true,
+        showLabel: true,
+        showValue: true,
+        readonly: false,
+    },
+    displayKey = {
+        visible: true,
+        showLabel: true,
+        showValue: true,
+        readonly: false,
+    },
+    displayValue = {
+        visible: true,
+        showLabel: true,
+        showValue: true,
+        readonly: false,
+    },
     onChange,
     onClickExpand,
 }: {
     prefixKey?: string;
     data: TFieldItem;
     expandChildrenIds?: string[];
+    displayTitle?: TDisplayInput;
+    displayKey?: TDisplayInput;
+    displayValue?: TDisplayInput;
     onChange?: ({ key, value }: { key: string; value: any }) => void;
     onClickExpand?: ({ _id }: { _id: string }) => void;
 }) => {
@@ -108,63 +140,105 @@ const InputField = ({
         <FieldContainer>
             <FieldRow>
                 <FieldTitle>
-                    <label>Title: </label>
-                    <input
-                        type="text"
-                        name="title"
-                        value={data.title}
-                        onChange={handleChangeString}
-                    />
+                    {displayTitle.visible && (
+                        <>
+                            {displayTitle.showLabel && (
+                                <label>Title: </label>
+                            )}
+                            {displayTitle.showValue && (
+                                displayTitle.readonly
+                                    ? <ReadOnlyInput>{data.title}: </ReadOnlyInput>
+                                    : <input
+                                        type="text"
+                                        name="title"
+                                        value={data.title}
+                                        onChange={handleChangeString}
+                                    />
+                            )}
+                        </>
+                    )}
                 </FieldTitle>
                 <FieldKey>
-                    <label>Key: </label>
-                    <input
-                        type="text"
-                        name="dataKey"
-                        value={data.dataKey}
-                        onChange={handleChangeString}
-                    />
+                    {displayKey.visible && (
+                        <>
+                            {displayKey.showLabel && (
+                                <label>Key: </label>
+                            )}
+                            {displayKey.showValue && (
+                                displayKey.readonly
+                                    ? <ReadOnlyInput>{data.dataKey}</ReadOnlyInput>
+                                    : <input
+                                        type="text"
+                                        name="dataKey"
+                                        value={data.dataKey}
+                                        onChange={handleChangeString}
+                                    />
+                            )}
+                        </>
+                    )}
                 </FieldKey>
 
                 {/* input value */}
                 {data.inputProps !== undefined && (
                     <FieldValue>
-
-                        {data.inputProps.type === 'text' && typeof data.inputProps.value === 'string' && (
+                        {displayValue.visible && (
                             <>
-                                <label>Text: </label>
-                                <input
-                                    type="text"
-                                    name="inputProps.value"
-                                    value={data.inputProps.value}
-                                    onChange={handleChangeString}
-                                />
+                                {data.inputProps.type === 'text' && typeof data.inputProps.value === 'string' && (
+                                    <>
+                                        {displayValue.showLabel && (
+                                            <label>Text: </label>
+                                        )}
+                                        {displayValue.showValue && (
+                                            displayValue.readonly
+                                                ? <ReadOnlyInput>{data.inputProps.value}</ReadOnlyInput>
+                                                : <input
+                                                    type="text"
+                                                    name="inputProps.value"
+                                                    value={data.inputProps.value}
+                                                    onChange={handleChangeString}
+                                                />
+                                        )}
+                                    </>
+                                )}
+
+                                {data.inputProps.type === 'number' && typeof data.inputProps.value === 'number' && (
+                                    <>
+                                        {displayValue.showLabel && (
+                                            <label>Number: </label>
+                                        )}
+                                        {displayValue.showValue && (
+                                            displayValue.readonly
+                                                ? <ReadOnlyInput>{data.inputProps.value}</ReadOnlyInput>
+                                                : <input
+                                                    type="number"
+                                                    name="inputProps.value"
+                                                    value={data.inputProps.value}
+                                                    onChange={handleChangeNumber}
+                                                />
+                                        )}
+                                    </>
+                                )}
+
+                                {data.inputProps.type === 'boolean' && typeof data.inputProps.value === 'boolean' && (
+                                    <>
+                                        {displayValue.showLabel && (
+                                            <label>Boolean: </label>
+                                        )}
+                                        {displayValue.showValue && (
+                                            displayValue.readonly
+                                                ? <ReadOnlyInput>{data.inputProps.value ? '✅' : '❌'}</ReadOnlyInput>
+                                                : <input
+                                                    type="checkbox"
+                                                    name="inputProps.value"
+                                                    checked={data.inputProps.value}
+                                                    onChange={handleChangeBoolean}
+                                                />
+                                        )}
+                                    </>
+                                )}
                             </>
                         )}
 
-                        {data.inputProps.type === 'number' && typeof data.inputProps.value === 'number' && (
-                            <>
-                                <label>Number: </label>
-                                <input
-                                    type="number"
-                                    name="inputProps.value"
-                                    value={data.inputProps.value}
-                                    onChange={handleChangeNumber}
-                                />
-                            </>
-                        )}
-
-                        {data.inputProps.type === 'boolean' && typeof data.inputProps.value === 'boolean' && (
-                            <>
-                                <label>Boolean: </label>
-                                <input
-                                    type="checkbox"
-                                    name="inputProps.value"
-                                    checked={data.inputProps.value}
-                                    onChange={handleChangeBoolean}
-                                />
-                            </>
-                        )}
                     </FieldValue>
                 )}
 
@@ -201,6 +275,9 @@ const InputField = ({
                                 prefixKey={childPrefixKey}
                                 data={child}
                                 expandChildrenIds={expandChildrenIds}
+                                displayTitle={displayTitle}
+                                displayKey={displayKey}
+                                displayValue={displayValue}
                                 onClickExpand={onClickExpand}
                                 onChange={onChange}
                             />
@@ -214,3 +291,4 @@ const InputField = ({
 
 
 export default InputField;
+export type { TDisplayInput };

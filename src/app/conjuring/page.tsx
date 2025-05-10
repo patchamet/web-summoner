@@ -2,8 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import _ from 'lodash';
-import InputField from '@/components/shared/InputField';
-import BtnSquareAdd from '@/components/shared/BtnSquareAdd';
+import InputField, { TDisplayInput } from '@/components/shared/InputField';
 import { applyDebugBorders } from '@/utils/debugBorder';
 import { TFieldItem } from '@/types';
 
@@ -73,10 +72,21 @@ const ConjuringSubmit = styled.button`
 
 const ConjuringControlsBar = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 10px;
+`;
+
+const ConjuringControlsBarItem = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    padding: 10px;
 `;
 
 const initFormData: TFieldItem[] = [
@@ -145,7 +155,7 @@ const initFormData: TFieldItem[] = [
         dataKey: 'employmentStatus',
         inputProps: {
             type: 'boolean',
-            value: true,
+            value: false,
         }
     },
     {
@@ -173,16 +183,112 @@ const getDuplicateDataKeyItems = (data: TFieldItem[]): TFieldItem[] => {
     return duplicateDataKeyItems;
 }
 
+const getIdsWithChildren = (items: TFieldItem[]): string[] => {
+    const result: string[] = [];
+
+    function traverse(itemList: TFieldItem[]) {
+        for (const item of itemList) {
+            if (item.children && item.children.length > 0) {
+                result.push(item._id);
+                traverse(item.children);
+            }
+        }
+    }
+
+    traverse(items);
+    return result;
+}
+
+const DisplayInputControl = ({
+    label,
+    data,
+    onChange,
+}: {
+    label: string;
+    data: TDisplayInput;
+    onChange?: (data: TDisplayInput) => void;
+}) => {
+    const [inputData, setInputData] = useState<TDisplayInput>(data);
+
+    const handleChange = (args: { [key: string]: boolean }) => {
+        console.log('handleChange args', args);
+        const updateData: TDisplayInput = {
+            ...data,
+            ...args,
+        }
+        setInputData(updateData);
+        if (onChange) onChange(updateData)
+    }
+
+    return (
+        <>
+            <label><b>{label}:</b></label>
+            <input
+                id={`${label}-display-title-visible`}
+                type="checkbox"
+                checked={inputData.visible}
+                onChange={(e) => handleChange({ visible: e.target.checked })}
+            />
+            <label htmlFor={`${label}-display-title-visible`}>Visible</label>
+
+            <input
+                id={`${label}-display-title-show-label`}
+                type="checkbox"
+                checked={inputData.showLabel}
+                onChange={(e) => handleChange({ showLabel: e.target.checked })}
+            />
+            <label htmlFor={`${label}-display-title-show-label`}>Label</label>
+
+            <input
+                id={`${label}-display-title-show-value`}
+                type="checkbox"
+                checked={inputData.showValue}
+                onChange={(e) => handleChange({ showValue: e.target.checked })}
+            />
+            <label htmlFor={`${label}-display-title-show-value`}>Value</label>
+
+            <input
+                id={`${label}-display-title-readonly`}
+                type="checkbox"
+                checked={inputData.readonly}
+                onChange={(e) => handleChange({ readonly: e.target.checked })}
+            />
+            <label htmlFor={`${label}-display-title-readonly`}>Readonly</label>
+        </>
+    )
+}
+
 const Conjuring = () => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     const [formData, setFormData] = useState<TFieldItem[]>([]);
     const [expandChildrenIds, setExpandChildrenIds] = useState<string[]>([]);
+    const [isExpandAll, setIsExpandAll] = useState<boolean>(true);
+    const [displayTitle, setDisplayTitle] = useState<TDisplayInput>({
+        visible: true,
+        showLabel: true,
+        showValue: true,
+        readonly: false,
+    });
+    const [displayKey, setDisplayKey] = useState<TDisplayInput>({
+        visible: true,
+        showLabel: true,
+        showValue: true,
+        readonly: false,
+    });
+    const [displayValue, setDisplayValue] = useState<TDisplayInput>({
+        visible: true,
+        showLabel: true,
+        showValue: true,
+        readonly: false,
+    });
 
-
+    // handle isExpandAll
     useEffect(() => {
-        setExpandChildrenIds([])
-    }, [formData])
+        const allExpandChildrenIds = getIdsWithChildren(formData);
+        const isExpandAll = allExpandChildrenIds.length > 0 && allExpandChildrenIds.every(id => expandChildrenIds.includes(id));
+        setIsExpandAll(isExpandAll);
+    }, [formData, expandChildrenIds])
 
     useEffect(() => {
         applyDebugBorders(containerRef.current);
@@ -226,36 +332,53 @@ const Conjuring = () => {
         }
     }
 
-    const handleAddField = () => {
-        alert('handleAddField');
+    const handleExpandAll = () => {
+        if (isExpandAll) {
+            setExpandChildrenIds([]);
+        } else {
+            setExpandChildrenIds(getIdsWithChildren(formData));
+        }
     }
 
-
-    const isExpandAll = true;
+    console.log('displayTitle', displayTitle);
+    console.log('displayKey', displayKey);
+    console.log('displayValue', displayValue);
 
     return (
         <ConjuringContainer ref={containerRef}>
             <ConjuringHeader>
                 <h1>Conjuring</h1>
                 <ConjuringControlsBar>
-                    <div
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: 10,
-                        }}
-                    >
+                    <ConjuringControlsBarItem>
+                        <label htmlFor="expand-all"><b>Expand All:</b></label>
                         <input
                             id="expand-all"
                             type="checkbox"
                             checked={isExpandAll}
-                            onChange={() => console.log('isExpandAll')}
+                            onChange={handleExpandAll}
                         />
-                        <label htmlFor="expand-all">Expand All</label>
-                    </div>
-
-
+                    </ConjuringControlsBarItem>
+                    <ConjuringControlsBarItem>
+                        <DisplayInputControl
+                            label="Title"
+                            data={displayTitle}
+                            onChange={setDisplayTitle}
+                        />
+                    </ConjuringControlsBarItem>
+                    <ConjuringControlsBarItem>
+                        <DisplayInputControl
+                            label="Key"
+                            data={displayKey}
+                            onChange={setDisplayKey}
+                        />
+                    </ConjuringControlsBarItem>
+                    <ConjuringControlsBarItem>
+                        <DisplayInputControl
+                            label="Value"
+                            data={displayValue}
+                            onChange={setDisplayValue}
+                        />
+                    </ConjuringControlsBarItem>
                 </ConjuringControlsBar>
             </ConjuringHeader>
 
@@ -270,12 +393,14 @@ const Conjuring = () => {
                             prefixKey={`[${index}]`}
                             data={data}
                             expandChildrenIds={expandChildrenIds}
+                            displayTitle={displayTitle}
+                            displayKey={displayKey}
+                            displayValue={displayValue}
                             onClickExpand={handleClickExpand}
                             onChange={handleChangeField}
                         />
                     ))}
                 </ConjuringForm>
-                <BtnSquareAdd onClick={handleAddField} />
             </ConjuringBody>
 
             <ConjuringFooter>
