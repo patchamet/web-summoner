@@ -2,10 +2,9 @@ import styled from 'styled-components';
 import { TFieldItem } from '@/types';
 
 type TDisplayInput = {
-    visible?: boolean;
     showLabel?: boolean;
     showValue?: boolean;
-    readonly?: boolean;
+    editable?: boolean;
 }
 
 const FieldContainer = styled.div`
@@ -91,22 +90,21 @@ const InputField = ({
     data,
     expandChildrenIds = [],
     displayTitle = {
-        visible: true,
         showLabel: true,
         showValue: true,
-        readonly: false,
+        editable: true,
     },
     displayKey = {
-        visible: true,
+
         showLabel: true,
         showValue: true,
-        readonly: false,
+        editable: true,
     },
     displayValue = {
-        visible: true,
+
         showLabel: true,
         showValue: true,
-        readonly: false,
+        editable: true,
     },
     onChange,
     onClickExpand,
@@ -140,101 +138,89 @@ const InputField = ({
         <FieldContainer>
             <FieldRow>
                 <FieldTitle>
-                    {displayTitle.visible && (
-                        <>
-                            {displayTitle.showLabel && (
-                                <label>Title: </label>
-                            )}
-                            {displayTitle.showValue && (
-                                displayTitle.readonly
-                                    ? <ReadOnlyInput>{data.title}: </ReadOnlyInput>
-                                    : <input
-                                        type="text"
-                                        name="title"
-                                        value={data.title}
-                                        onChange={handleChangeString}
-                                    />
-                            )}
-                        </>
+                    {displayTitle.showLabel && (
+                        <label>Title: </label>
+                    )}
+                    {displayTitle.showValue && (
+                        displayTitle.editable
+                            ? <input
+                                type="text"
+                                name="title"
+                                value={data.title}
+                                onChange={handleChangeString}
+                            />
+                            : <ReadOnlyInput>{data.title}: </ReadOnlyInput>
                     )}
                 </FieldTitle>
                 <FieldKey>
-                    {displayKey.visible && (
-                        <>
-                            {displayKey.showLabel && (
-                                <label>Key: </label>
-                            )}
-                            {displayKey.showValue && (
-                                displayKey.readonly
-                                    ? <ReadOnlyInput>{data.dataKey}</ReadOnlyInput>
-                                    : <input
-                                        type="text"
-                                        name="dataKey"
-                                        value={data.dataKey}
-                                        onChange={handleChangeString}
-                                    />
-                            )}
-                        </>
+                    {displayKey.showLabel && (
+                        <label>Key: </label>
+                    )}
+                    {displayKey.showValue && (
+                        displayKey.editable
+                            ? <input
+                                type="text"
+                                name="dataKey"
+                                value={data.dataKey}
+                                onChange={handleChangeString}
+                            />
+                            : <ReadOnlyInput>{data.dataKey}</ReadOnlyInput>
                     )}
                 </FieldKey>
 
                 {/* input value */}
                 {data.inputProps !== undefined && (
                     <FieldValue>
-                        {displayValue.visible && (
+                        {data.inputProps.type === 'text' && typeof data.inputProps.value === 'string' && (
                             <>
-                                {data.inputProps.type === 'text' && typeof data.inputProps.value === 'string' && (
-                                    <>
-                                        {displayValue.showLabel && (
-                                            <label>Text: </label>
-                                        )}
-                                        {displayValue.showValue && (
-                                            displayValue.readonly
-                                                ? <ReadOnlyInput>{data.inputProps.value}</ReadOnlyInput>
-                                                : <input
-                                                    type="text"
-                                                    name="inputProps.value"
-                                                    value={data.inputProps.value}
-                                                    onChange={handleChangeString}
-                                                />
-                                        )}
-                                    </>
+                                {displayValue.showLabel && (
+                                    <label>Text: </label>
                                 )}
-
-                                {data.inputProps.type === 'number' && typeof data.inputProps.value === 'number' && (
-                                    <>
-                                        {displayValue.showLabel && (
-                                            <label>Number: </label>
-                                        )}
-                                        {displayValue.showValue && (
-                                            displayValue.readonly
-                                                ? <ReadOnlyInput>{data.inputProps.value}</ReadOnlyInput>
-                                                : <input
-                                                    type="number"
-                                                    name="inputProps.value"
-                                                    value={data.inputProps.value}
-                                                    onChange={handleChangeNumber}
-                                                />
-                                        )}
-                                    </>
+                                {displayValue.showValue && (
+                                    displayValue.editable
+                                        ? <input
+                                            type="text"
+                                            name="inputProps.value"
+                                            value={data.inputProps.value}
+                                            onChange={handleChangeString}
+                                        />
+                                        : <ReadOnlyInput>{data.inputProps.value}</ReadOnlyInput>
                                 )}
+                            </>
+                        )}
 
-                                {data.inputProps.type === 'boolean' && typeof data.inputProps.value === 'boolean' && (
-                                    <>
-                                        {displayValue.showLabel && (
-                                            <label>Boolean: </label>
-                                        )}
-                                        {displayValue.showValue && (
-                                            displayValue.readonly
-                                                ? <ReadOnlyInput>{data.inputProps.value ? '✅' : '❌'}</ReadOnlyInput>
-                                                : <input
-                                                    type="checkbox"
-                                                    name="inputProps.value"
-                                                    checked={data.inputProps.value}
-                                                    onChange={handleChangeBoolean}
-                                                />
-                                        )}
-                                    </>
+                        {data.inputProps.type === 'number' && typeof data.inputProps.value === 'number' && (
+                            <>
+                                {displayValue.showLabel && (
+                                    <label>Number: </label>
+                                )}
+                                {displayValue.showValue && (
+                                    displayValue.editable
+                                        ? <input
+                                            type="number"
+                                            name="inputProps.value"
+                                            value={data.inputProps.value}
+                                            onChange={handleChangeNumber}
+                                        />
+                                        : <ReadOnlyInput>{data.inputProps.value}</ReadOnlyInput>
+                                )}
+                            </>
+                        )}
+
+                        {data.inputProps.type === 'boolean' && typeof data.inputProps.value === 'boolean' && (
+                            <>
+                                {displayValue.showLabel && (
+                                    <label>Boolean: </label>
+                                )}
+                                {displayValue.showValue && (
+                                    displayValue.editable
+                                        ? <input
+                                            type="checkbox"
+                                            name="inputProps.value"
+                                            checked={data.inputProps.value}
+                                            onChange={handleChangeBoolean}
+                                        />
+                                        : <ReadOnlyInput>{data.inputProps.value ? '✅' : '❌'}</ReadOnlyInput>
                                 )}
                             </>
                         )}
@@ -245,7 +231,9 @@ const InputField = ({
                 {/* if children is array show symbol */}
                 {Array.isArray(data.children) && data.children.length > 0 && (
                     <FieldValue>
-                        <label>Total Children: {data.children.length}</label>
+                        {displayValue.showLabel && (
+                            <label>Total Children: {data.children.length}</label>
+                        )}
                         <IconExpand
                             style={{
                                 transform: expandChildrenIds.includes(data._id) ? 'rotate(0deg)' : 'rotate(90deg)'

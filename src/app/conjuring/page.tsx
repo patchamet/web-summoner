@@ -223,14 +223,7 @@ const DisplayInputControl = ({
     return (
         <>
             <label><b>{label}:</b></label>
-            <input
-                id={`${label}-display-title-visible`}
-                type="checkbox"
-                checked={inputData.visible}
-                onChange={(e) => handleChange({ visible: e.target.checked })}
-            />
-            <label htmlFor={`${label}-display-title-visible`}>Visible</label>
-
+            
             <input
                 id={`${label}-display-title-show-label`}
                 type="checkbox"
@@ -248,12 +241,12 @@ const DisplayInputControl = ({
             <label htmlFor={`${label}-display-title-show-value`}>Value</label>
 
             <input
-                id={`${label}-display-title-readonly`}
+                id={`${label}-display-title-editable`}
                 type="checkbox"
-                checked={inputData.readonly}
-                onChange={(e) => handleChange({ readonly: e.target.checked })}
+                checked={inputData.editable}
+                onChange={(e) => handleChange({ editable: e.target.checked })}
             />
-            <label htmlFor={`${label}-display-title-readonly`}>Readonly</label>
+            <label htmlFor={`${label}-display-title-editable`}>Editable</label>
         </>
     )
 }
@@ -265,22 +258,19 @@ const Conjuring = () => {
     const [expandChildrenIds, setExpandChildrenIds] = useState<string[]>([]);
     const [isExpandAll, setIsExpandAll] = useState<boolean>(true);
     const [displayTitle, setDisplayTitle] = useState<TDisplayInput>({
-        visible: true,
         showLabel: true,
         showValue: true,
-        readonly: false,
+        editable: true,
     });
     const [displayKey, setDisplayKey] = useState<TDisplayInput>({
-        visible: true,
         showLabel: true,
         showValue: true,
-        readonly: false,
+        editable: true,
     });
     const [displayValue, setDisplayValue] = useState<TDisplayInput>({
-        visible: true,
         showLabel: true,
         showValue: true,
-        readonly: false,
+        editable: true,
     });
 
     // handle isExpandAll
